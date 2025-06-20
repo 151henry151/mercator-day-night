@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day/Night Terminator Map - hromp.com</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Day/Night Terminator Map</h1>
+            <p class="subtitle">Real-time visualization of Earth's day/night boundary</p>
+        </header>
+        
+        <main>
+            <div id="map-container">
+                <svg id="map"></svg>
+            </div>
+            
+            <div class="info-panel">
+                <div class="time-info">
+                    <h2>Current Time</h2>
+                    <p id="current-time"></p>
+                    <p id="current-date"></p>
+                </div>
+                
+                <div class="explanation">
+                    <h2>About This Map</h2>
+                    <p>This map shows the boundary between day and night on Earth in real-time. The dark area represents night, while the light area represents day.</p>
+                    <p>The curved line you see is called the "terminator" - it's where the sun is either rising or setting.</p>
+                    <p>Due to Earth's axial tilt of 23.4°, the length of day and night varies throughout the year, creating our seasons.</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Created by <a href="https://hromp.com">hromp.com</a></p>
+        </footer>
+    </div>
+    
+    <script src="map.js"></script>
+</body>
+</html> 
