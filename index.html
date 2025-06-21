@@ -12,12 +12,19 @@
     <div class="container">
         <header>
             <h1>Day/Night Terminator Map</h1>
-            <p class="subtitle">Real-time visualization of Earth's day/night boundary</p>
+            <p class="subtitle">Visualization of Earth's day/night boundary for any date</p>
         </header>
         
         <main>
             <div id="map-container">
                 <svg id="map"></svg>
+                <div id="mini-maps-container" class="mini-maps-container">
+                    <div class="mini-maps-header">
+                        <h2 id="mini-maps-title">Miniature Maps</h2>
+                        <button class="close-mini-maps" id="close-mini-maps">Close</button>
+                    </div>
+                    <div id="mini-maps-grid" class="mini-maps-grid"></div>
+                </div>
             </div>
             
             <div class="info-panel">
@@ -27,10 +34,24 @@
                     <p id="current-date"></p>
                 </div>
                 
+                <div class="date-picker">
+                    <h2>Select Date</h2>
+                    <div class="date-controls">
+                        <input type="date" id="date-picker" />
+                        <button id="reset-date" class="btn">Reset to Today</button>
+                    </div>
+                    <div class="view-controls">
+                        <button id="view-month" class="btn btn-secondary">See Full Month</button>
+                        <button id="view-year" class="btn btn-secondary">See Full Year</button>
+                    </div>
+                    <p class="date-info">Choose any date to see the day/night boundary for that date at the current time.</p>
+                </div>
+                
                 <div class="explanation">
                     <h2>About This Map</h2>
-                    <p>This map shows the boundary between day and night on Earth in real-time. The dark area represents night, while the light area represents day.</p>
+                    <p>This map shows the boundary between day and night on Earth. The dark area represents night, while the light area represents day.</p>
                     <p>The curved line you see is called the "terminator" - it's where the sun is either rising or setting.</p>
+                    <p>Use the date picker to see the day/night boundary for any date at the current time, or leave it set to today for real-time updates.</p>
                     <p>Due to Earth's axial tilt of 23.4°, the length of day and night varies throughout the year, creating our seasons.</p>
                 </div>
             </div>

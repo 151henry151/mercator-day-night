@@ -6,6 +6,8 @@
     --border-color: #dcdde1;
     --land-color: #b0b0b0;
     --water-color: #e6f2fa;
+    --land-color-night: #8a8a8a;
+    --water-color-night: #cad4e0;
     --night-shade: rgba(44, 62, 80, 0.35);
 }
 
@@ -66,6 +68,16 @@ h1 {
     fill: var(--land-color);
 }
 
+.land-night {
+    fill: var(--land-color-night);
+}
+
+.terminator {
+    stroke: #666;
+    stroke-width: 2px;
+    fill: none;
+}
+
 .night-region {
     fill: var(--night-shade);
     stroke: none;
@@ -73,7 +85,7 @@ h1 {
 
 .info-panel {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr 2fr;
     gap: 2rem;
     background: white;
     padding: 2rem;
@@ -99,6 +111,212 @@ h1 {
 #current-date {
     color: var(--text-color);
     opacity: 0.8;
+}
+
+.date-picker {
+    text-align: center;
+}
+
+.date-picker h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.date-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#date-picker {
+    padding: 0.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    background: white;
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+#date-picker:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+#date-picker.custom-date {
+    border-color: var(--secondary-color);
+    background: #f8f9ff;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background: #2980b9;
+}
+
+.btn-secondary {
+    background: var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: #1a252f;
+}
+
+.view-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Miniature maps grid */
+.mini-maps-container {
+    display: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+#map-container.viewing-mini-maps #map {
+    display: none;
+}
+
+#map-container.viewing-mini-maps #mini-maps-container {
+    display: block;
+}
+
+.mini-maps-container.loading {
+    display: block;
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 2rem;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+.loading-indicator::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.mini-maps-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.mini-maps-header h2 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.close-mini-maps {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.mini-maps-grid {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.mini-maps-grid.year-view {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.mini-maps-grid.month-view {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.mini-map-item {
+    background: var(--water-color);
+    border-radius: 4px;
+    padding: 0.25rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mini-map-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: var(--secondary-color);
+}
+
+.mini-map-item h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.6rem;
+    color: var(--primary-color);
+}
+
+.mini-map-svg {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.5;
+    background: var(--water-color);
+    border-radius: 2px;
+    display: block;
+}
+
+.mini-map-svg .land {
+    fill: var(--land-color);
+    stroke: #fff;
+    stroke-width: 0.3;
+}
+
+.mini-map-svg .land-night {
+    fill: var(--land-color-night);
+    stroke: #fff;
+    stroke-width: 0.3;
+}
+
+.mini-map-svg .night-region {
+    fill: transparent;
+    stroke: none;
+}
+
+.mini-map-svg .terminator {
+    stroke: #666;
+    stroke-width: 1;
+    fill: none;
+}
+
+.date-info {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .explanation h2 {
@@ -129,6 +347,7 @@ footer a:hover {
 @media (max-width: 768px) {
     .info-panel {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     #map {
@@ -143,5 +362,27 @@ footer a:hover {
     
     h1 {
         font-size: 2rem;
+    }
+    
+    .date-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #date-picker {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .mini-maps-grid.year-view {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .mini-maps-grid.month-view {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    
+    .mini-map-svg {
+        /* height is now controlled by aspect-ratio */
     }
 } 
