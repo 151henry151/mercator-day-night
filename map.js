@@ -1,43 +1,97 @@
-// Map dimensions and projection
-const width = document.getElementById('map').clientWidth;
-const height = document.getElementById('map').clientHeight;
-const projection = d3.geoMercator()
-    .scale(width / 2 / Math.PI)
-    .translate([width / 2, height / 2]);
+// Global variables for map state
+let width, height, projection, path, svg;
+let worldData = null;
+let resizeTimeout = null;
 
-const path = d3.geoPath().projection(projection);
+// Initialize the map
+function initMap() {
+    updateDimensions();
+    createSVG();
+    loadWorldData();
+}
 
-// Create SVG
-const svg = d3.select('#map')
-    .attr('width', width)
-    .attr('height', height);
+// Update dimensions based on current container size
+function updateDimensions() {
+    const mapElement = document.getElementById('map');
+    width = mapElement.clientWidth;
+    height = mapElement.clientHeight;
+    
+    // Update projection with new dimensions
+    projection = d3.geoMercator()
+        .scale(width / 2 / Math.PI)
+        .translate([width / 2, height / 2]);
+    
+    path = d3.geoPath().projection(projection);
+}
 
-// Add background (water)
-svg.append('rect')
-    .attr('width', width)
-    .attr('height', height)
-    .attr('fill', 'var(--water-color)');
+// Create or update SVG
+function createSVG() {
+    // Remove existing SVG if it exists
+    d3.select('#map').selectAll('*').remove();
+    
+    // Create new SVG
+    svg = d3.select('#map')
+        .attr('width', width)
+        .attr('height', height);
+
+    // Add background (water)
+    svg.append('rect')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', 'var(--water-color)');
+}
 
 // Load world map data
-d3.json('data/countries-110m.json')
-    .then(data => {
-        const countries = topojson.feature(data, data.objects.countries);
-        
-        // Draw countries (land)
-        svg.append('g')
-            .selectAll('path')
-            .data(countries.features)
-            .enter()
-            .append('path')
-            .attr('d', path)
-            .attr('class', 'land')
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 0.5);
-        
-        // Start the animation
-        updateTerminator();
-        setInterval(updateTerminator, 1000);
-    });
+function loadWorldData() {
+    d3.json('data/countries-110m.json')
+        .then(data => {
+            worldData = data;
+            drawWorldMap();
+            // Start the animation
+            updateTerminator();
+            setInterval(updateTerminator, 1000);
+        });
+}
+
+// Draw the world map
+function drawWorldMap() {
+    if (!worldData) return;
+    
+    const countries = topojson.feature(worldData, worldData.objects.countries);
+    
+    // Draw countries (land)
+    svg.append('g')
+        .selectAll('path')
+        .data(countries.features)
+        .enter()
+        .append('path')
+        .attr('d', path)
+        .attr('class', 'land')
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 0.5);
+}
+
+// Handle window resize with debouncing
+function handleResize() {
+    // Clear existing timeout
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+    }
+    
+    // Set new timeout to debounce resize events
+    resizeTimeout = setTimeout(() => {
+        updateDimensions();
+        createSVG();
+        drawWorldMap();
+        updateTerminator(); // Update terminator immediately after resize
+    }, 100); // 100ms debounce delay
+}
+
+// Initialize the map when the page loads
+initMap();
+
+// Add resize event listener
+window.addEventListener('resize', handleResize);
 
 // Update time display
 function updateTime() {
